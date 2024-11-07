@@ -30,12 +30,12 @@ echo"<script type='text/javascript' src='js/script.js'></script>
 }
 </style>";
 if(isset($_GET['id'])){
-	mysqli_query("delete from transaction where id='{$_GET['id']}'");
+	mysqli_query($connect,"delete from transaction where id='{$_GET['id']}'");
 }
 if(isset($_GET['pid']) & isset($_GET['q'])){
 	$pid = $_GET['pid'];
 	$quan = $_GET['q'];
-	$plist = mysqli_query("select product_name, cost_price from product where product_id='{$pid}'");
+	$plist = mysqli_query($connect,"select product_name, cost_price from product where product_id='{$pid}'");
 	if(!$plist) die("error");
 	if(mysqli_num_rows($plist)){	
 		while($row = mysqli_fetch_array($plist)){
@@ -44,7 +44,7 @@ if(isset($_GET['pid']) & isset($_GET['q'])){
 			$price*=$quan;	
 		}
 	}
-	mysqli_query("insert into transaction values('{$pname}',$pid,$quan,$price,NULL)");
+	mysqli_query($connect,"insert into transaction values('{$pname}',$pid,$quan,$price,NULL)");
 }
 	$translist = mysqli_query($connect,"select * from transaction");
 	$transmax = mysqli_query($connect,"select sum(price) from transaction");

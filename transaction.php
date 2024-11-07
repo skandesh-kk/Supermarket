@@ -41,7 +41,7 @@ session_start();
     	<h1><span>Transaction</span></h1>
         <div id="data">
         <?php
-		if(isset($_POST['cancel'])) mysql_query("truncate table transaction"); ?>
+		if(isset($_POST['cancel'])) mysqli_query($connect,"truncate table transaction"); ?>
         <span id="transalert"></span>
         	<form action="sell.php" method="post">
         		<table border="0" style="width:100%">

@@ -8,6 +8,6 @@ if(!$connect){
 //select database
 $db = mysqli_select_db($connect,DB_NAME);
 if(!$db){
-	die("Database selection Error".mysqli_error());
+	die("Database selection Error".mysqli_error($connect));
 	}	
  ?>

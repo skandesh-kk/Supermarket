@@ -8,9 +8,9 @@
         <div id="data">To view list of employees <a style="text-decoration:none" href="viewlist.php?list=employee">Click Here</a><br /><br />
 	<?php
 	   if(isset($_GET['third'])&&isset($_POST['user'])){
-		   $user_result=mysql_query($connect,"INSERT INTO login VALUES('{$_POST['user']}',md5('{$_POST['password']}'),NULL,{$_POST['admin']})");
+		   $user_result=mysqli_query($connect,"INSERT INTO login VALUES('{$_POST['user']}',md5('{$_POST['password']}'),NULL,{$_POST['admin']})");
 		   if(!$user_result){
-		   echo "Addition not successful".mysqli_error();
+		   echo "Addition not successful".mysqli_error($connect);
 		   //header("Location:addemp.php");
 	   		}
 	   		else echo"Addition of employee user data successful";

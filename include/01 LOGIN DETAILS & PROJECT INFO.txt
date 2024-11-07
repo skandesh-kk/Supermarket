@@ -1,6 +1,6 @@
 **Database Name: supermarket**
 
-**Developed by Satya Pramodh, Ravi Rohith**
+**Developed by SKANDESH K K , SUJITH R**
 
 **Recommended PHP Version 5.6.3**
 

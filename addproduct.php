@@ -9,8 +9,8 @@
         
         <?php 
 			if(isset($_GET['success'])){
-				$result=mysqli_query("INSERT INTO product VALUES(NULL,{$_POST['cprice']},{$_POST['supplier']},'{$_POST['product_name']}',{$_POST['quantity']},'{$_POST['product_type']}',{$_POST['mprice']})");
-				if(!$result)echo "Addition not successful ".mysqli_error();
+				$result=mysqli_query($connect,"INSERT INTO product VALUES(NULL,{$_POST['cprice']},{$_POST['supplier']},'{$_POST['product_name']}',{$_POST['quantity']},'{$_POST['product_type']}',{$_POST['mprice']})");
+				if(!$result)echo "Addition not successful ".mysqli_error($connect);
 	   			else echo"Addition of product data successful";
 			}
 			else{
@@ -20,7 +20,7 @@
 						<tr><td style='padding:5px'>Product type: </td>
 						<td><select name='product_type'>";
 						
-						$dept_set = mysqli_query("select dept_id, dept_name from department");
+						$dept_set = mysqli_query($connect,"select dept_id, dept_name from department");
 				while($row = mysqli_fetch_array($dept_set))
 					echo "<option value='{$row['dept_id']}'>{$row['dept_name']}</option>";
 																	
@@ -29,7 +29,7 @@
 						<tr><td style='padding:5px'>Supplier ID: </td>
 						<td><select name='supplier'>";
 						
-						$supplier_set = mysqli_query("select sid, sname from supplier");
+						$supplier_set = mysqli_query($connect,"select sid, sname from supplier");
 				while($row = mysqli_fetch_array($supplier_set))
 					echo "<option value='{$row['sid']}'>{$row['sname']}</option>";
 						

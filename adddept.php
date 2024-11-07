@@ -8,7 +8,7 @@
         <div id="data">To view list of departments <a style="text-decoration:none" href="viewlist.php?list=dept">Click Here</a><br /><br />
         <?php 
 			if(isset($_GET['success'])){
-				$result=mysqli_query("INSERT INTO department VALUES('{$_POST['mid']}',NULL,'{$_POST['dname']}','{$_POST['doj']}')");
+				$result=mysqli_query($connect,"INSERT INTO department VALUES('{$_POST['mid']}',NULL,'{$_POST['dname']}','{$_POST['doj']}')");
 				if(!$result)echo "Addition not successful";
 	   			else echo"Addition of Department data successful";
 			}
@@ -19,7 +19,7 @@
 					    <tr><td style='padding:5px'>Dept Name: </td><td><input name='dname' type='text' /></td></tr>
 						<tr><td style='padding:5px'>Manager: </td>
 						<td><select name='mid'><option value='NULL'>NULL</option>";
-				$manager_set = mysqli_query("select id, first_name, last_name from employee where admin='1' and dept_id='0'");
+				$manager_set = mysqli_query($connect,"select id, first_name, last_name from employee where admin='1' and dept_id='0'");
 				while($row = mysqli_fetch_array($manager_set))
 					echo "<option value='{$row['id']}'>{$row['first_name']}&nbsp;{$row['last_name']}</option>";
 				echo"</select></td>

@@ -11,8 +11,8 @@
 				$date = date($_POST['valid']);
 				$time = date("y-m-d");
 				if($date>$time){
-				$result=mysqli_query("INSERT INTO promotion VALUES({$_POST['discount']},'{$_POST['valid']}',NULL,'')");
-				if(!$result)echo "Addition not successful ".mysqli_error();
+				$result=mysqli_query($connect,"INSERT INTO promotion VALUES({$_POST['discount']},'{$_POST['valid']}',NULL,'')");
+				if(!$result)echo "Addition not successful ".mysqli_error($connect);
 	   			else echo"Addition of promo data successful";
 				}else echo "date error";
 			}

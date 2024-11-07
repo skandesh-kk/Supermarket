@@ -12,23 +12,23 @@
 				$time = date("Y-m-d");
 				$discount=0;
 				//pids
-				$pidlist= mysqli_query("select pid from transaction");		
+				$pidlist= mysqli_query($connect,"select pid from transaction");		
 				while($row = mysqli_fetch_array($pidlist))
 					$pid[]=$row['pid'];
 				$pids = implode(",",$pid);
 				//total amount
-				$data = mysqli_query("select sum(price) from transaction");
+				$data = mysqli_query($connect,"select sum(price) from transaction");
 				$data = mysqli_fetch_array($data);
 				$totamo = $data['sum(price)'];
 				$promo=$_POST['discount'];				
 				if($promo!=0){
-					$promolist = mysqli_query("select discount,valid_upto from promotion where promo_code='{$promo}'");
+					$promolist = mysqli_query($connect,"select discount,valid_upto from promotion where promo_code='{$promo}'");
 					if(mysqli_num_rows($promolist)){
 						$promolist=mysqli_fetch_array($promolist);
 						$time = date("Y-m-d");
 						$n=date($promolist['valid_upto']);
 						if($n>$time){
-							mysqli_query("update promotion set count=count+1 where promo_code='{$promo}'");
+							mysqli_query($connect,"update promotion set count=count+1 where promo_code='{$promo}'");
 							echo "Discount ".$promolist['discount']."%";
 							$discount = ($totamo*$promolist['discount'])/100;
 							$totamo = $totamo-($totamo*$promolist['discount'])/100;
@@ -37,9 +37,9 @@
 				}
 				//profit, profit-discount error
 				$profit=0;
-				$data = mysqli_query("select pid,quantity from transaction");
+				$data = mysqli_query($connect,"select pid,quantity from transaction");
 				while($row=mysqli_fetch_array($data)){
-					$temp = mysqli_query("select cost_price,market_price,quantity, product_name from product where product_id='{$row['pid']}'");
+					$temp = mysqli_query($connect,"select cost_price,market_price,quantity, product_name from product where product_id='{$row['pid']}'");
 					$temp = mysqli_fetch_array($temp);
 					if($row['quantity']>$temp['quantity'] || $row['quantity']<=0){
 						echo"<script>if(alert('Quantity of {$temp['product_name']} is wrong'))</script>";						
@@ -52,24 +52,24 @@
 				if($flag==1){
 				$cid = $_POST['cid'];
 				if($cid!=0){
-					$clist = mysqli_query("select first_name, last_name,cmoney_spent from customer where cid='{$cid}'");
+					$clist = mysqli_query($connect,"select first_name, last_name,cmoney_spent from customer where cid='{$cid}'");
 					$clist=mysqli_fetch_array($clist);
 					echo "Hello ".$clist['first_name']." ".$clist['last_name']." your previous balance is Rs. ". $clist['cmoney_spent']."<br />";
-					mysqli_query("update customer set cmoney_spent=cmoney_spent+'{$totamo}' where cid='{$cid}'");
+					mysqli_query($connect,"update customer set cmoney_spent=cmoney_spent+'{$totamo}' where cid='{$cid}'");
 					echo "New balance: Rs. ";
 					echo $clist['cmoney_spent']+$totamo;
 				}
 				
-				$result = mysqli_query("insert into buy values(NULL,'{$time}','{$pids}',$totamo,$profit,$cid)");
+				$result = mysqli_query($connect,"insert into buy values(NULL,'{$time}','{$pids}',$totamo,$profit,$cid)");
 				if(!$result) echo "Error in transaction. Please <a href='transaction.php'>retry</a>";
 				else {
 					echo"<div id='data'><br />Items Sold!!<br />Bill Value: Rs. {$totamo}";
 					//lessen the quantity
-					$data = mysqli_query("select pid,quantity from transaction");
+					$data = mysqli_query($connect,"select pid,quantity from transaction");
 				while($row=mysqli_fetch_array($data)){
-					$temp = mysqli_query("update product set quantity = quantity-'{$row['quantity']}' where product_id='{$row['pid']}'");					
+					$temp = mysqli_query($connect,"update product set quantity = quantity-'{$row['quantity']}' where product_id='{$row['pid']}'");					
 				}
-					mysqli_query("truncate table transaction");
+					mysqli_query($connect,"truncate table transaction");
 				}
 				}else echo"Error with quantity values please check again... <a href='transaction.php'>Go Back</a>";
 			?>
